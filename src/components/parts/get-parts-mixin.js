@@ -1,6 +1,6 @@
 export default {
   created() {
-    this.$store.dispatch('getParts');
+    this.$store.dispatch('robots/getParts');
   },
   computed: {
     parts() {
@@ -10,7 +10,7 @@ export default {
         torsos: [],
         bases: [],
       };
-      return this.$store.state.parts || defaultParts;
+      return this.$store.state.robots.parts || defaultParts;
     },
   },
 };

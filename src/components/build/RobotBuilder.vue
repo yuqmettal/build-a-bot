@@ -65,7 +65,7 @@ import CollapsibleSection from '../shared/CollapsibleSection.vue';
 export default {
   name: 'RobotBuilder',
   created() {
-    this.$store.dispatch('getParts');
+    this.$store.dispatch('robots/getParts');
   },
   beforeRouteLeave(to, from, next) {
     if (this.addedToCart) {
@@ -95,20 +95,21 @@ export default {
     };
   },
   methods: {
-    addToCart() {
+    async addToCart() {
       const robot = this.selectedRobot;
       const cost = this.selectedRobot.head.cost
         + this.selectedRobot.leftArm.cost
         + this.selectedRobot.torso.cost
         + this.selectedRobot.rightArm.cost
         + this.selectedRobot.base.cost;
-      this.$store.commit('addRobotToCart', { ...robot, cost });
+      await this.$store.dispatch('robots/addRobotToCart', { ...robot, cost });
+      this.$router.push('/cart');
       this.addedToCart = true;
     },
   },
   computed: {
     availableParts() {
-      return this.$store.state.parts;
+      return this.$store.state.robots.parts;
     },
     saleBorderClass() {
       return this.selectedRobot.head.onSale ? 'sale-border' : '';
